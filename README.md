@@ -146,22 +146,53 @@ Or access online via GitHub Pages: [https://upasana-mukherjee-777.github.io/YOLO
 
 ## 🚀 7. Reproduction & Execution Guide
 
-### Installation
+### Step 1: Clone Repository & Install Dependencies
 ```bash
 git clone https://github.com/Upasana-Mukherjee-777/YOLO_Calibration.git
 cd YOLO_Calibration
 pip install -r requirements.txt
 ```
 
-### Running the Master Jupyter Notebook
-The upgraded notebook is available in the root directory:
-* `YOLO_Calibration_Transfer.ipynb` (Full master notebook with embedded proposal, novelty matrix, code, and precomputed figures).
-* All outputs, tables, and figures render immediately on GitHub or nbviewer without requiring GPU execution.
+### Step 2: Set Up Dataset (Automated Utility)
+The project evaluates on the COCO val2017 dataset. We provide an automated downloader utility:
 
-To execute fresh on Kaggle or Google Colab (with T4/A100 GPU):
-1. Attach the COCO 2017 dataset (`instances_val2017.json` and `val2017/` images).
-2. Set `N_IMAGES = 5000` (or `500` for a fast 15-minute pilot run).
-3. Execute all cells sequentially.
+* **Option A — Fast Verification (Zero-Wait, 50 Images):**
+  Generates a synthetic quick-test subset in 2 seconds to verify the full pipeline:
+  ```bash
+  python download_dataset.py --quick
+  ```
+
+* **Option B — Official Full COCO val2017 (~1.2 GB):**
+  Automatically downloads and unpacks official COCO images and annotations into `./data/coco`:
+  ```bash
+  python download_dataset.py --full
+  ```
+
+### Step 3: Run the Benchmark
+
+#### Mode A: Standalone CLI Python Script
+Run the automated benchmark directly from terminal:
+```bash
+# Fast test (50 images):
+python run_calibration.py --data_dir ./data/coco --n_images 50
+
+# Full benchmark run (5,000 images):
+python run_calibration.py --data_dir ./data/coco --n_images 5000 --device 0
+```
+
+#### Mode B: Interactive Master Jupyter Notebook
+Open the notebook in VS Code, JupyterLab, or upload to Google Colab / Kaggle:
+* `YOLO_Calibration_Transfer.ipynb`
+* All outputs, tables, and figures are pre-rendered so you can view the results immediately without re-running on GPU.
+
+### Step 4: Launch Interactive Demonstration Dashboard
+Open the interactive dashboard locally:
+```bash
+python -m http.server 8000
+# Open http://localhost:8000 in your browser
+```
+Or view the live cloud version on GitHub Pages:  
+👉 **[https://upasana-mukherjee-777.github.io/YOLO_Calibration/](https://upasana-mukherjee-777.github.io/YOLO_Calibration/)**
 
 ---
 
