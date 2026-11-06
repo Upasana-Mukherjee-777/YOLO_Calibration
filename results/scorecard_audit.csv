@@ -1,0 +1,23 @@
+0,"G1 detection quality measured per condition (mAP, recall, FP/img)",Done,yolov8n.pt mAP50-95 0.366 clean -> 0.005 worst; recall 0.502 -> 0.007
+1,"G2 calibration improves detection ECE (CI-supported, >=3/4 family splits)",Met,"{'yolov8n.pt': '4/4', 'yolo11n.pt': '4/4'}"
+2,G2 standard calibrators keep localization-aware calibration,Not met,"degrade LaECE in {'yolov8n.pt': '4/4', 'yolo11n.pt': '4/4'}"
+3,G2 localization-aware calibrators retain LaECE within margin,Met,"{'yolov8n.pt': '4/4', 'yolo11n.pt': '4/4'}"
+4,G3 transfer to held-out families established,Met (equivalence shown),"{'yolov8n.pt': 'B', 'yolo11n.pt': 'B'}"
+5,G3 test is adequately powered (median gap-CI half-width <= margin),Met,half-width 0.0053 vs margin 0.01; test images 2000
+6,G3 each held-out family actually shifts calibration (>= margin),Not met,"weak/untestable: yolov8n.pt:noise, yolov8n.pt:brightness, yolov8n.pt:blur, yolo11n.pt:noise, yolo11n.pt:brightness, ..."
+7,G3 severity transfer separated from family transfer,Done,split S5
+8,G3 test family excluded from fitting and selection,Done,assertions in eval_split; selection on validation family only
+9,G4 no suppression artefact (coverage drift at fixed threshold <= 0.05),Not met,max |coverage-0.8| = 0.056
+10,G4 latency and memory reported,Done,MC overhead x2.31
+11,"Error detection: MC reliability beats raw AUROC (CI, >=3/4 splits)",Met,{'yolov8n.pt': 4}
+12,Correction justified by evidence (plan: only if existing methods fail),Not justified,"{'yolov8n.pt': 'B', 'yolo11n.pt': 'B'}"
+13,"Baselines: raw, temperature, Platt, isotonic, hist-binning, MC-Dropout",Done,
+14,"Baseline: detector-specific post-hoc calibration (box-aware multivariate logistic, after Kuppers et al.)",Done,own implementation
+15,Baseline: published train-time / retrained calibration methods,Not done,not reimplemented
+16,Baseline: conformal prediction,Scoped out,plan: only if the problem is framed around intervals/coverage; this study is framed around calibration
+17,Both YOLOv8n and YOLO11n,Done,
+18,Repeated image-split seeds,Done,"[42, 43, 44]"
+19,Second dataset / natural distribution shift,Not done,set EXTERNAL_SETS
+20,Real (not synthetic) corruptions in the main benchmark,Not done,ImageNet-C-style approximations
+21,Test set >= 2000 images,Met,test images 2000
+22,"Reproducibility record (config, seeds, versions, CSVs)",Done,/kaggle/working/yolo-calibration-transfer-v3

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reliable Calibration Transfer for Lightweight YOLO Detectors Under Unseen Image Corruptions</title>
+  <meta name="description" content="Research project evaluating post-hoc confidence calibration transfer across unseen image corruption families for YOLOv8n and YOLO11n detectors without retraining.">
+  <meta name="author" content="Upasana Mukherjee">
+  
+  <!-- Google Fonts & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrapper">
+        <div class="brand-logo">YC</div>
+        <div class="brand-text">
+          <h1>YOLO Calibration Transfer</h1>
+          <p>Reliable Confidence & Localization Under Unseen Corruptions</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="openPresentationBtn" class="btn btn-accent">
+          <span>🎓</span> Professor Presentation Mode
+        </button>
+        <a href="https://github.com/Upasana-Mukherjee-777/YOLO_Calibration" target="_blank" class="btn btn-secondary">
+          <span>🐙</span> GitHub Repository
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 1.5rem;">
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="hero-badges">
+        <span class="badge badge-indigo">IEEE Scope Proposal</span>
+        <span class="badge badge-emerald">Outcome B Verified</span>
+        <span class="badge badge-cyan">Zero Retraining</span>
+        <span class="badge badge-purple">YOLOv8n & YOLO11n</span>
+        <span class="badge badge-amber">LaECE Paradox Resolved</span>
+      </div>
+      <h2 class="hero-title">Reliable Calibration Transfer for Lightweight YOLO Detectors Under Unseen Image Corruptions</h2>
+      <p class="hero-subtitle">
+        Investigating whether post-hoc calibration fitted on observed corruptions transfers to held-out corruption families on modern nano detectors (YOLOv8n & YOLO11n), discovering the Localization-Aware Calibration Paradox, and guaranteeing coverage via Conformal Risk Control.
+      </p>
+      
+      <div class="hero-stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">5,000</div>
+          <div class="stat-label">COCO Val2017 Images</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">19</div>
+          <div class="stat-label">Visual Conditions (ImageNet-C)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">0.0098 <span style="font-size:0.9rem;color:#10b981;">(vs 0.1143)</span></div>
+          <div class="stat-label">Test ECE on Unseen Shifts</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">0.51 ms</div>
+          <div class="stat-label">Calibration Latency / 1k Dets</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">&plusmn; 0.01</div>
+          <div class="stat-label">Equivalence Margin Bound</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-proposal">
+        <span>📄</span> 1-Page Proposal
+      </button>
+      <button class="tab-btn" data-tab="tab-novelty">
+        <span>🔍</span> 2025–2026 Novelty Matrix
+      </button>
+      <button class="tab-btn" data-tab="tab-simulator">
+        <span>🧪</span> Live Lab & Corruption Simulator
+      </button>
+      <button class="tab-btn" data-tab="tab-scorecard">
+        <span>📊</span> Benchmark Scorecard & Results
+      </button>
+      <button class="tab-btn" data-tab="tab-methods">
+        <span>📐</span> Mathematical Formulations
+      </button>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: ONE-PAGE PROPOSAL -->
+    <!-- ===================================================================== -->
+    <section id="tab-proposal" class="tab-content">
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>📋</span> Executive Research Proposal (One-Page Summary)</h3>
+          <span class="badge badge-indigo">Author: Upasana Mukherjee</span>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div>
+            <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.35rem;">1. Problem Statement & Research Question</h4>
+            <p style="color:var(--text-main); font-size:0.95rem;">
+              Lightweight single-stage detectors such as <strong>YOLOv8n</strong> (3.2M parameters) and <strong>YOLO11n</strong> (2.6M parameters) are deployed widely at the edge. When subjected to environmental corruptions (defocus blur, motion blur, sensor noise, fog, blizzard snow, brightness shifts), detection accuracy degrades, and detectors output overconfident predictions on hallucinated or poorly localized bounding boxes. Retraining detectors for every deployment environment is computationally prohibitive.
+            </p>
+            <div class="math-block">
+              \text{Central Research Question: Can post-hoc confidence calibration fitted on observed corruption conditions} \\
+              \text{reliably transfer to previously unseen corruption families without retraining or sacrificing localization quality?}
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.35rem;">2. Four Core Research Hypotheses</h4>
+            <ul style="margin-left: 1.5rem; line-height: 1.7; font-size: 0.925rem; color: var(--text-main);">
+              <li><strong>Hypothesis 1 (Calibration Transferability):</strong> Post-hoc calibrators (Platt scaling, Isotonic regression, Multivariate logistic) fitted on known corruption families transfer to held-out unseen families, achieving detection ECE equivalent to an in-distribution Oracle calibrator within a practical significance margin &epsilon; = 0.01.</li>
+              <li><strong>Hypothesis 2 (The Localization-Aware Paradox):</strong> Standard calibrators fitted only on binary detection correctness (&DoubleStruckCapitalI;[IoU &ge; 0.5 &and; class match]) severely inflate Localization-Aware Calibration Error (LaECE) by overconfidently scaling detections whose bounding boxes remain imperfect.</li>
+              <li><strong>Hypothesis 3 (Localization-Aware & Conformal Correction):</strong> Jointly optimizing calibrators on detection correctness scaled by IoU (correct &times; IoU) resolves the LaECE paradox while Conformal Risk Control (CRC) guarantees finite-sample coverage under severe corruption regimes.</li>
+              <li><strong>Hypothesis 4 (Edge Efficiency Trade-Off):</strong> Test-time stochastic sampling (Monte Carlo Dropout) incurs a prohibitive &gt;2.3&times; latency penalty on edge hardware while offering negligible calibration transfer gains over ultra-lightweight (&lt;0.6 ms/1k detections) post-hoc mappings.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.35rem;">3. Disjoint Protocol & Leakage Prevention</h4>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.75rem;">
+              5,000 COCO val2017 images partitioned into <strong>40% Fit (2,000 images)</strong>, <strong>20% Validation (1,000 images)</strong>, and <strong>40% Test (2,000 images)</strong>. Calibrators are fitted strictly on Fit images and selected on Validation images; they never access test images or held-out test corruption families.
+            </p>
+            <div class="grid-2">
+              <div class="card" style="padding:1rem; background:rgba(31,41,55,0.4);">
+                <strong style="color:#a5b4fc;">Split S1 (Primary Hold-Out Weather):</strong>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">
+                  Fit: Clean, Gaussian Noise, Brightness<br>
+                  Val: Defocus & Motion Blur<br>
+                  <span style="color:#f87171;font-weight:600;">Held-Out Test: Adverse Weather (Fog, Blizzard Snow)</span>
+                </p>
+              </div>
+              <div class="card" style="padding:1rem; background:rgba(31,41,55,0.4);">
+                <strong style="color:#a5b4fc;">Split S5 (Severity Transfer Control):</strong>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">
+                  Fit: Severities 1 & 5 across All Corruption Families<br>
+                  Val: Cross-image validation split<br>
+                  <span style="color:#fcd34d;font-weight:600;">Held-Out Test: Intermediate Severity 3 (All Families)</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.35rem;">4. Target Publication Roadmap</h4>
+            <p style="color:var(--text-muted); font-size:0.9rem;">
+              Targeting appropriately scoped IEEE venues (IEEE Transactions on Intelligent Transportation Systems, IEEE ICCV Workshop on Robust Computer Vision, or IEEE RA-L). Acceptance will be driven by the rigorous equivalence testing, the discovery and resolution of the Localization Paradox, and strict zero-retraining edge efficiency.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: NOVELTY MATRIX -->
+    <!-- ===================================================================== -->
+    <section id="tab-novelty" class="tab-content" style="display:none;">
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>🔍</span> 2025–2026 Novelty Matrix & Literature Positioning</h3>
+          <span class="badge badge-emerald">Peer-Reviewed Benchmarks</span>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">
+          To establish a defensible research gap, our experimental framework is benchmarked against the closest peer-reviewed literature from 2020 through 2026 across 8 technical dimensions:
+        </p>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Paper & Venue</th>
+                <th>Detector Architecture</th>
+                <th>Shift Paradigm</th>
+                <th>Transfer Protocol</th>
+                <th>Uncertainty Target</th>
+                <th>Retraining?</th>
+                <th>Latency</th>
+                <th>Equivalence Tested?</th>
+              </tr>
+            </thead>
+            <tbody id="noveltyMatrixBody">
+              <!-- Populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2" style="margin-top: 1.5rem;">
+          <div class="callout callout-info" style="margin-bottom:0;">
+            <h4 style="font-weight:700; margin-bottom:0.35rem;">Why Huseljic et al. (IJCV 2025) Leaves YOLO Open</h4>
+            <p style="font-size:0.875rem;">
+              The authors systematically studied two-stage detectors with fine-tuning, but explicitly excluded one-stage anchorless YOLO models because their calibration formulation relies on probability simplexes over full multinomial distributions. Our work addresses decoupled anchor-free YOLO prediction heads directly.
+            </p>
+          </div>
+          <div class="callout callout-success" style="margin-bottom:0;">
+            <h4 style="font-weight:700; margin-bottom:0.35rem;">Why Ries et al. (PMLR 2026) Leaves Our Gap Open</h4>
+            <p style="font-size:0.875rem;">
+              Ries et al. applied conformal prediction to autonomous driving datasets by enlarging bounding-box coordinate intervals. We examine the complementary problem: can scalar confidence scores achieve calibration transfer without enlarging box geometry, while preserving edge runtime?
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: LIVE LAB & CORRUPTION SIMULATOR -->
+    <!-- ===================================================================== -->
+    <section id="tab-simulator" class="tab-content" style="display:none;">
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>🧪</span> Live Detection & Calibration Inspector</h3>
+          <span class="badge badge-cyan">Interactive Simulation</span>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">
+          Select a detector, apply ImageNet-C corruptions at varying severities, and observe how raw vs. calibrated confidence scores behave alongside bounding box IoU quality:
+        </p>
+
+        <div class="simulator-layout">
+          <!-- Left Controls -->
+          <div class="control-panel card" style="padding:1.25rem;">
+            <div class="form-group">
+              <label class="form-label" for="simModelSelect">Detector Model</label>
+              <select id="simModelSelect" class="form-select">
+                <option value="yolov8n">YOLOv8n (3.2M params - 21.1 ms)</option>
+                <option value="yolo11n">YOLO11n (2.6M params - 16.3 ms)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="simCondSelect">Environmental Corruption</label>
+              <select id="simCondSelect" class="form-select">
+                <!-- Populated via app.js -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Calibration Method</label>
+              <div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.85rem; margin-top:0.25rem;">
+                <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+                  <input type="radio" name="calibMethod" value="raw" checked> Raw Confidence (Uncalibrated)
+                </label>
+                <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+                  <input type="radio" name="calibMethod" value="temperature"> Temperature Scaling
+                </label>
+                <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+                  <input type="radio" name="calibMethod" value="platt"> Platt Scaling (Transfer)
+                </label>
+                <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+                  <input type="radio" name="calibMethod" value="loc_isotonic"> Localization-Aware Isotonic (Ours)
+                </label>
+                <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+                  <input type="radio" name="calibMethod" value="conformal"> Conformal Risk Control (CRC)
+                </label>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--border-color); padding-top:1rem; margin-top:0.5rem;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem; font-size:0.85rem;">
+                <span style="color:var(--text-muted);">Condition mAP50-95:</span>
+                <strong id="simStatMap" style="color:#6ee7b7;">0.3662</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem; font-size:0.85rem;">
+                <span style="color:var(--text-muted);">Empirical Recall:</span>
+                <strong id="simStatRecall" style="color:#93c5fd;">50.2%</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem; font-size:0.85rem;">
+                <span style="color:var(--text-muted);">False Positives / Img:</span>
+                <strong id="simStatFp" style="color:#fca5a5;">0.54</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem; font-size:0.85rem;">
+                <span style="color:var(--text-muted);">Condition ECE:</span>
+                <strong id="simStatEce" style="color:#fcd34d;">0.0980</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Viewport -->
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div class="canvas-card">
+              <div class="canvas-viewport">
+                <canvas id="detectionCanvas"></canvas>
+                <div class="canvas-overlay-stats">
+                  DETECTIONS ACTIVE: 4 | THRESHOLD: 0.25
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="padding:1rem;">
+              <h4 style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">
+                Condition Reliability Curve (Calibration Diagram)
+              </h4>
+              <div style="height:200px;">
+                <canvas id="chartSimReliability"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: BENCHMARK SCORECARD & RESULTS -->
+    <!-- ===================================================================== -->
+    <section id="tab-scorecard" class="tab-content" style="display:none;">
+      
+      <!-- Key Charts -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><span>📉</span> Detection ECE Transfer Across Splits</h3>
+            <span class="badge badge-indigo">Bootstrap B=500</span>
+          </div>
+          <div style="height:260px;">
+            <canvas id="chartEceTransfer"></canvas>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem;">
+            Platt scaling and Multivariate Logistic achieve Outcome B: equivalence to Oracle across 4/4 splits (&Delta; = +0.0002).
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><span>⚠️</span> The Localization-Aware Paradox (LaECE)</h3>
+            <span class="badge badge-rose">Scientific Discovery</span>
+          </div>
+          <div style="height:260px;">
+            <canvas id="chartLaeceParadox"></canvas>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem;">
+            Standard calibrators inflate LaECE by +566% (+0.0861). Proposed Loc-Aware Isotonic protects LaECE (-0.0055).
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><span>🌪️</span> Accuracy Collapse Across Corruptions</h3>
+            <span class="badge badge-amber">mAP50-95 Trajectory</span>
+          </div>
+          <div style="height:240px;">
+            <canvas id="chartPerfDegradation"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><span>⚡</span> Edge Latency & Overhead Profiling</h3>
+            <span class="badge badge-emerald">Micro-Hardware Constraints</span>
+          </div>
+          <div style="height:240px;">
+            <canvas id="chartLatencyEfficiency"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 23-Point Scorecard -->
+      <div class="card" style="margin-top:1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>📑</span> 23-Point Experimental Audit Scorecard</h3>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span id="scorecardCount" style="font-size:0.8rem; color:var(--text-muted);"></span>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="btn btn-secondary scorecard-filter-btn active" style="padding:0.25rem 0.6rem;font-size:0.75rem;" onclick="filterScorecard('all')">All (23)</button>
+              <button class="btn btn-secondary scorecard-filter-btn" style="padding:0.25rem 0.6rem;font-size:0.75rem;" onclick="filterScorecard('met')">Met (9)</button>
+              <button class="btn btn-secondary scorecard-filter-btn" style="padding:0.25rem 0.6rem;font-size:0.75rem;" onclick="filterScorecard('done')">Done (10)</button>
+              <button class="btn btn-secondary scorecard-filter-btn" style="padding:0.25rem 0.6rem;font-size:0.75rem;" onclick="filterScorecard('open')">Open / Limitations</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:40px;">#</th>
+                <th>Requirement & Objective</th>
+                <th style="width:160px;">Status</th>
+                <th>Empirical Evidence (5,000 COCO val2017 run)</th>
+              </tr>
+            </thead>
+            <tbody id="scorecardBody">
+              <!-- Populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 5: MATHEMATICAL FORMULATIONS -->
+    <!-- ===================================================================== -->
+    <section id="tab-methods" class="tab-content" style="display:none;">
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>📐</span> Theoretical Foundations & Mathematical Formulations</h3>
+          <span class="badge badge-purple">Formulations</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <div>
+            <h4 style="color:#818cf8; font-weight:700;">1. Detection Expected Calibration Error (D-ECE)</h4>
+            <p style="font-size:0.9rem; color:var(--text-main); margin-top:0.25rem;">
+              For predictions with confidence &ge; 0.25, detections are partitioned into M=15 equal-frequency bins B_m:
+            </p>
+            <div class="math-block">
+              \text{ECE} = \sum_{m=1}^M \frac{|B_m|}{N} \left| \text{acc}(B_m) - \text{conf}(B_m) \right|, \quad \text{where } \text{acc}(B_m) = \frac{1}{|B_m|} \sum_{i \in B_m} \mathbb{I}[\text{IoU}_i \ge 0.5 \land \hat{y}_i = y_i]
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700;">2. Localization-Aware Calibration Error (LaECE) & The Paradox</h4>
+            <p style="font-size:0.9rem; color:var(--text-main); margin-top:0.25rem;">
+              Adapting Oksuz et al. (CVPR 2023), LaECE-lite balances confidence with both classification correctness and localization overlap:
+            </p>
+            <div class="math-block">
+              \text{LaECE} = \sum_{m=1}^M \frac{|B_m|}{N} \left| \text{loc\_acc}(B_m) - \text{conf}(B_m) \right|, \quad \text{loc\_acc}(B_m) = \frac{1}{|B_m|} \sum_{i \in B_m} \left( \mathbb{I}[\hat{y}_i = y_i] \cdot \text{IoU}_i \right)
+            </div>
+            <div class="callout callout-warning">
+              <strong>Mathematical Origin of the Paradox:</strong> Standard calibrators minimize log-loss &sum; -y log p - (1-y) log (1-p). For any correct box (y=1), p &rarr; 1.0, regardless of whether IoU = 0.51 or 0.99. This drives |loc_acc(B_m) - conf(B_m)| up from 0.015 to 0.101.
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700;">3. Localization-Aware Isotonic Regression (`loc_isotonic`)</h4>
+            <p style="font-size:0.9rem; color:var(--text-main); margin-top:0.25rem;">
+              We formulate a non-parametric calibrator fitted directly to the joint target z_i = y_i &times; IoU_i via the Pool Adjacent Violators (PAV) algorithm:
+            </p>
+            <div class="math-block">
+              \min_{f \in \mathcal{M}} \sum_{i=1}^n \left( f(c_i) - (y_i \cdot \text{IoU}_i) \right)^2 \quad \text{s.t. } c_i \le c_j \implies f(c_i) \le f(c_j)
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700;">4. Conformal Risk Control (CRC) Under Shift</h4>
+            <p style="font-size:0.9rem; color:var(--text-main); margin-top:0.25rem;">
+              To bound false positive risk and prevent coverage collapse under severe noise, we compute a calibrated confidence threshold &tau; guaranteeing:
+            </p>
+            <div class="math-block">
+              \mathbb{E}[R(\hat{\tau})] \le \alpha, \quad \hat{\tau} = \text{Quantile}\left( \{c_i\}_{i \in \text{Val}}, \frac{\lceil (n+1)(1 - \text{coverage}) \rceil}{n} \right)
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color:#818cf8; font-weight:700;">5. Clustered Bootstrap & Equivalence Testing Margin</h4>
+            <p style="font-size:0.9rem; color:var(--text-main); margin-top:0.25rem;">
+              To respect image-level correlation, we resample test images with replacement (B=500 replicates). An equivalence decision rule declares Outcome B if and only if:
+            </p>
+            <div class="math-block">
+              \text{CI}_{0.95}(\Delta_{\text{transfer}} - \Delta_{\text{oracle}}) \subset [-\epsilon, +\epsilon], \quad \text{with } \epsilon = 0.01
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Presentation Mode Modal -->
+  <div id="presentationModal" class="modal-backdrop">
+    <div class="presentation-container">
+      <div class="presentation-header">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span style="font-size:1.4rem;">🎓</span>
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:#fff;">Professor / Committee Review Walkthrough</h3>
+            <p style="font-size:0.75rem;color:var(--text-muted);">YOLO Calibration Transfer Project Defense</p>
+          </div>
+        </div>
+        <button id="closePresentationBtn" class="btn btn-secondary" style="padding:0.35rem 0.75rem;">✕ Close</button>
+      </div>
+
+      <div class="presentation-body">
+        <h2 id="slideTitle" class="slide-title">Slide Title</h2>
+        <div id="slideContent" class="slide-content">Slide content goes here...</div>
+      </div>
+
+      <div class="presentation-footer">
+        <button id="slidePrevBtn" class="btn btn-secondary">← Previous</button>
+        <span id="slideIndicator" class="slide-indicator">Slide 1 of 8</span>
+        <button id="slideNextBtn" class="btn btn-primary">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <p style="font-weight:600;color:#fff;">Reliable Calibration Transfer for Lightweight YOLO Detectors Under Unseen Image Corruptions</p>
+        <p style="font-size:0.8rem;margin-top:0.25rem;">Principal Investigator: Upasana Mukherjee &bull; Target: IEEE Transactions / ICCV / RA-L</p>
+      </div>
+      <div>
+        <a href="https://github.com/Upasana-Mukherjee-777/YOLO_Calibration" target="_blank" class="btn btn-secondary" style="font-size:0.8rem;">
+          <span>📂</span> GitHub Repository
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

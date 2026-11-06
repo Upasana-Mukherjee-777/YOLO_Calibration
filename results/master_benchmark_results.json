@@ -1,0 +1,593 @@
+{
+  "title": "Reliable Calibration Transfer for Lightweight YOLO Detectors Under Unseen Image Corruptions",
+  "authors": "Upasana Mukherjee",
+  "venue_target": "IEEE Conference on Computer Vision / Intelligent Transportation Systems / Indexed Journal",
+  "models": [
+    "YOLOv8n",
+    "YOLO11n"
+  ],
+  "total_images": 5000,
+  "test_images": 2000,
+  "conditions_count": 19,
+  "corruption_families": [
+    "noise",
+    "brightness",
+    "blur",
+    "weather"
+  ],
+  "severities": [
+    1,
+    3,
+    5
+  ],
+  "splits": {
+    "S1_primary_hold_weather": {
+      "fit": [
+        "clean",
+        "noise",
+        "brightness"
+      ],
+      "val": [
+        "blur"
+      ],
+      "test": [
+        "weather"
+      ]
+    },
+    "S2_hold_noise": {
+      "fit": [
+        "clean",
+        "blur",
+        "weather"
+      ],
+      "val": [
+        "brightness"
+      ],
+      "test": [
+        "noise"
+      ]
+    },
+    "S3_hold_brightness": {
+      "fit": [
+        "clean",
+        "noise",
+        "weather"
+      ],
+      "val": [
+        "blur"
+      ],
+      "test": [
+        "brightness"
+      ]
+    },
+    "S4_hold_blur": {
+      "fit": [
+        "clean",
+        "brightness",
+        "weather"
+      ],
+      "val": [
+        "noise"
+      ],
+      "test": [
+        "blur"
+      ]
+    },
+    "S5_severity_transfer": {
+      "fit": [
+        "clean",
+        "noise",
+        "brightness",
+        "blur",
+        "weather (sev 1,5)"
+      ],
+      "val": null,
+      "test": [
+        "all families (sev 3)"
+      ]
+    }
+  },
+  "detection_performance": [
+    {
+      "model": "yolov8n.pt",
+      "condition": "clean",
+      "family": "clean",
+      "mAP50_95": 0.3662,
+      "AP50": 0.5183,
+      "recall": 0.502,
+      "fp_per_img": 0.5425
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "gaussian_noise_s1",
+      "family": "noise",
+      "mAP50_95": 0.2674,
+      "AP50": 0.3921,
+      "recall": 0.4012,
+      "fp_per_img": 0.612
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "gaussian_noise_s3",
+      "family": "noise",
+      "mAP50_95": 0.0953,
+      "AP50": 0.1518,
+      "recall": 0.1785,
+      "fp_per_img": 0.892
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "gaussian_noise_s5",
+      "family": "noise",
+      "mAP50_95": 0.0047,
+      "AP50": 0.0076,
+      "recall": 0.0071,
+      "fp_per_img": 1.254
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "brightness_s1",
+      "family": "brightness",
+      "mAP50_95": 0.3594,
+      "AP50": 0.5111,
+      "recall": 0.495,
+      "fp_per_img": 0.551
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "brightness_s3",
+      "family": "brightness",
+      "mAP50_95": 0.335,
+      "AP50": 0.4792,
+      "recall": 0.471,
+      "fp_per_img": 0.569
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "brightness_s5",
+      "family": "brightness",
+      "mAP50_95": 0.2962,
+      "AP50": 0.4298,
+      "recall": 0.432,
+      "fp_per_img": 0.598
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "defocus_blur_s1",
+      "family": "blur",
+      "mAP50_95": 0.1955,
+      "AP50": 0.3014,
+      "recall": 0.324,
+      "fp_per_img": 0.71
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "defocus_blur_s3",
+      "family": "blur",
+      "mAP50_95": 0.0518,
+      "AP50": 0.0832,
+      "recall": 0.112,
+      "fp_per_img": 0.985
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "defocus_blur_s5",
+      "family": "blur",
+      "mAP50_95": 0.0132,
+      "AP50": 0.0224,
+      "recall": 0.038,
+      "fp_per_img": 1.152
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "motion_blur_s1",
+      "family": "blur",
+      "mAP50_95": 0.2159,
+      "AP50": 0.3269,
+      "recall": 0.345,
+      "fp_per_img": 0.695
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "motion_blur_s3",
+      "family": "blur",
+      "mAP50_95": 0.0669,
+      "AP50": 0.1131,
+      "recall": 0.142,
+      "fp_per_img": 0.942
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "motion_blur_s5",
+      "family": "blur",
+      "mAP50_95": 0.0177,
+      "AP50": 0.0326,
+      "recall": 0.051,
+      "fp_per_img": 1.121
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "fog_s1",
+      "family": "weather",
+      "mAP50_95": 0.3331,
+      "AP50": 0.4745,
+      "recall": 0.468,
+      "fp_per_img": 0.572
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "fog_s3",
+      "family": "weather",
+      "mAP50_95": 0.3082,
+      "AP50": 0.4402,
+      "recall": 0.441,
+      "fp_per_img": 0.592
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "fog_s5",
+      "family": "weather",
+      "mAP50_95": 0.2904,
+      "AP50": 0.4186,
+      "recall": 0.425,
+      "fp_per_img": 0.612
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "snow_s1",
+      "family": "weather",
+      "mAP50_95": 0.2765,
+      "AP50": 0.4064,
+      "recall": 0.412,
+      "fp_per_img": 0.628
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "snow_s3",
+      "family": "weather",
+      "mAP50_95": 0.191,
+      "AP50": 0.2887,
+      "recall": 0.315,
+      "fp_per_img": 0.742
+    },
+    {
+      "model": "yolov8n.pt",
+      "condition": "snow_s5",
+      "family": "weather",
+      "mAP50_95": 0.134,
+      "AP50": 0.2062,
+      "recall": 0.235,
+      "fp_per_img": 0.865
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "clean",
+      "family": "clean",
+      "mAP50_95": 0.3873,
+      "AP50": 0.5464,
+      "recall": 0.521,
+      "fp_per_img": 0.512
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "gaussian_noise_s1",
+      "family": "noise",
+      "mAP50_95": 0.2858,
+      "AP50": 0.4183,
+      "recall": 0.421,
+      "fp_per_img": 0.589
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "gaussian_noise_s3",
+      "family": "noise",
+      "mAP50_95": 0.0915,
+      "AP50": 0.1446,
+      "recall": 0.169,
+      "fp_per_img": 0.884
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "gaussian_noise_s5",
+      "family": "noise",
+      "mAP50_95": 0.0037,
+      "AP50": 0.0059,
+      "recall": 0.0062,
+      "fp_per_img": 1.285
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "brightness_s1",
+      "family": "brightness",
+      "mAP50_95": 0.3816,
+      "AP50": 0.5393,
+      "recall": 0.514,
+      "fp_per_img": 0.521
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "brightness_s3",
+      "family": "brightness",
+      "mAP50_95": 0.3582,
+      "AP50": 0.5085,
+      "recall": 0.491,
+      "fp_per_img": 0.541
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "brightness_s5",
+      "family": "brightness",
+      "mAP50_95": 0.315,
+      "AP50": 0.452,
+      "recall": 0.448,
+      "fp_per_img": 0.575
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "defocus_blur_s1",
+      "family": "blur",
+      "mAP50_95": 0.2104,
+      "AP50": 0.3188,
+      "recall": 0.339,
+      "fp_per_img": 0.685
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "defocus_blur_s3",
+      "family": "blur",
+      "mAP50_95": 0.0542,
+      "AP50": 0.0892,
+      "recall": 0.119,
+      "fp_per_img": 0.965
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "defocus_blur_s5",
+      "family": "blur",
+      "mAP50_95": 0.0125,
+      "AP50": 0.021,
+      "recall": 0.034,
+      "fp_per_img": 1.185
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "motion_blur_s1",
+      "family": "blur",
+      "mAP50_95": 0.2312,
+      "AP50": 0.345,
+      "recall": 0.361,
+      "fp_per_img": 0.665
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "motion_blur_s3",
+      "family": "blur",
+      "mAP50_95": 0.0715,
+      "AP50": 0.121,
+      "recall": 0.151,
+      "fp_per_img": 0.925
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "motion_blur_s5",
+      "family": "blur",
+      "mAP50_95": 0.0182,
+      "AP50": 0.0335,
+      "recall": 0.052,
+      "fp_per_img": 1.11
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "fog_s1",
+      "family": "weather",
+      "mAP50_95": 0.354,
+      "AP50": 0.502,
+      "recall": 0.489,
+      "fp_per_img": 0.548
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "fog_s3",
+      "family": "weather",
+      "mAP50_95": 0.328,
+      "AP50": 0.467,
+      "recall": 0.461,
+      "fp_per_img": 0.569
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "fog_s5",
+      "family": "weather",
+      "mAP50_95": 0.309,
+      "AP50": 0.443,
+      "recall": 0.442,
+      "fp_per_img": 0.589
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "snow_s1",
+      "family": "weather",
+      "mAP50_95": 0.295,
+      "AP50": 0.431,
+      "recall": 0.43,
+      "fp_per_img": 0.605
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "snow_s3",
+      "family": "weather",
+      "mAP50_95": 0.205,
+      "AP50": 0.309,
+      "recall": 0.332,
+      "fp_per_img": 0.725
+    },
+    {
+      "model": "yolo11n.pt",
+      "condition": "snow_s5",
+      "family": "weather",
+      "mAP50_95": 0.145,
+      "AP50": 0.221,
+      "recall": 0.249,
+      "fp_per_img": 0.842
+    }
+  ],
+  "ece_results": {
+    "S1_primary_hold_weather": {
+      "yolov8n": {
+        "raw": 0.1143,
+        "temperature": 0.1068,
+        "platt": 0.0098,
+        "isotonic": 0.012,
+        "hist_bin": 0.0105,
+        "mv_logistic": 0.0098,
+        "loc_isotonic": 0.1126,
+        "oracle_platt": 0.0096
+      },
+      "yolo11n": {
+        "raw": 0.1199,
+        "temperature": 0.1121,
+        "platt": 0.0134,
+        "isotonic": 0.0142,
+        "hist_bin": 0.0128,
+        "mv_logistic": 0.0104,
+        "loc_isotonic": 0.1182,
+        "oracle_platt": 0.0074
+      }
+    },
+    "S2_hold_noise": {
+      "yolov8n": {
+        "raw": 0.0948,
+        "temperature": 0.0892,
+        "platt": 0.0112,
+        "isotonic": 0.0118,
+        "hist_bin": 0.0101,
+        "mv_logistic": 0.0105,
+        "loc_isotonic": 0.0935,
+        "oracle_platt": 0.01
+      },
+      "yolo11n": {
+        "raw": 0.1097,
+        "temperature": 0.103,
+        "platt": 0.0107,
+        "isotonic": 0.0125,
+        "hist_bin": 0.0115,
+        "mv_logistic": 0.0109,
+        "loc_isotonic": 0.1084,
+        "oracle_platt": 0.0101
+      }
+    },
+    "S3_hold_brightness": {
+      "yolov8n": {
+        "raw": 0.1064,
+        "temperature": 0.0995,
+        "platt": 0.0118,
+        "isotonic": 0.0124,
+        "hist_bin": 0.011,
+        "mv_logistic": 0.0108,
+        "loc_isotonic": 0.1049,
+        "oracle_platt": 0.011
+      },
+      "yolo11n": {
+        "raw": 0.1133,
+        "temperature": 0.1065,
+        "platt": 0.0098,
+        "isotonic": 0.0112,
+        "hist_bin": 0.0104,
+        "mv_logistic": 0.0097,
+        "loc_isotonic": 0.112,
+        "oracle_platt": 0.0096
+      }
+    },
+    "S4_hold_blur": {
+      "yolov8n": {
+        "raw": 0.0768,
+        "temperature": 0.0712,
+        "platt": 0.0125,
+        "isotonic": 0.0131,
+        "hist_bin": 0.0119,
+        "mv_logistic": 0.012,
+        "loc_isotonic": 0.0754,
+        "oracle_platt": 0.0077
+      },
+      "yolo11n": {
+        "raw": 0.0679,
+        "temperature": 0.062,
+        "platt": 0.031,
+        "isotonic": 0.0309,
+        "hist_bin": 0.0295,
+        "mv_logistic": 0.0152,
+        "loc_isotonic": 0.0671,
+        "oracle_platt": 0.0068
+      }
+    },
+    "S5_severity_transfer": {
+      "yolov8n": {
+        "raw": 0.1085,
+        "temperature": 0.1012,
+        "platt": 0.0108,
+        "isotonic": 0.0115,
+        "hist_bin": 0.0102,
+        "mv_logistic": 0.01,
+        "loc_isotonic": 0.1072,
+        "oracle_platt": 0.0099
+      },
+      "yolo11n": {
+        "raw": 0.1152,
+        "temperature": 0.1084,
+        "platt": 0.0124,
+        "isotonic": 0.013,
+        "hist_bin": 0.0118,
+        "mv_logistic": 0.011,
+        "loc_isotonic": 0.1141,
+        "oracle_platt": 0.0089
+      }
+    }
+  },
+  "laece_paradox": {
+    "description": "Standard calibrators optimize classification log-loss on binary correctness, inflating LaECE by ~0.086 (from 0.015 to 0.101). Localization-aware calibrators fit correct x IoU, preserving LaECE.",
+    "yolov8n_S1": {
+      "raw_laece": 0.0152,
+      "platt_laece": 0.1013,
+      "mv_logistic_laece": 0.1005,
+      "loc_isotonic_laece": 0.0097,
+      "oracle_platt_laece": 0.0921
+    },
+    "yolo11n_S1": {
+      "raw_laece": 0.0168,
+      "platt_laece": 0.108,
+      "mv_logistic_laece": 0.1021,
+      "loc_isotonic_laece": 0.0105,
+      "oracle_platt_laece": 0.0988
+    }
+  },
+  "latency_profiling": {
+    "yolov8n": {
+      "base_ms": 21.12,
+      "peak_ram_mb": 88.16,
+      "mc_ms": 48.83,
+      "mc_overhead": 2.31,
+      "calib_ms_per_1k": 0.51
+    },
+    "yolo11n": {
+      "base_ms": 16.26,
+      "peak_ram_mb": 91.15,
+      "mc_ms": 38.45,
+      "mc_overhead": 2.36,
+      "calib_ms_per_1k": 0.51
+    }
+  },
+  "decision_outcomes": {
+    "yolov8n": {
+      "outcome": "Outcome B",
+      "rule": "Equivalent to oracle in 4/4 splits, improves on raw in 4/4 splits",
+      "median_ci_halfwidth": 0.0053,
+      "significance_margin": 0.01
+    },
+    "yolo11n": {
+      "outcome": "Outcome B",
+      "rule": "Equivalent to oracle in 3/4 splits, improves on raw in 4/4 splits",
+      "median_ci_halfwidth": 0.0049,
+      "significance_margin": 0.01
+    }
+  }
+}

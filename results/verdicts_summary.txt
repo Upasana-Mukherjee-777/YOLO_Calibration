@@ -1,0 +1,4 @@
+yolov8n.pt: Outcome B - equivalent to oracle in 4/4 splits, improves on raw in 4/4
+yolo11n.pt: Outcome B - equivalent to oracle in 3/4 splits, improves on raw in 4/4
+
+Control: if clean_only_platt matches platt, any gain is generic recalibration rather than multi-family transfer.
