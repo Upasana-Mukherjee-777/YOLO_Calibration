@@ -6,7 +6,7 @@
 [![Zero Retraining](https://img.shields.io/badge/Zero--Retraining-0.51%20ms%2F1k%20dets-cyan?style=for-the-badge)](https://github.com/Upasana-Mukherjee-777/YOLO_Calibration)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-> **Author:** Upasana Mukherjee  
+> **Author:** Upasana Mukherjee, Mouli Mukherjee, Adi Ratnam, Prem Kumar Jha, Rudranil Chakraborty 
 > **Project Repository:** [https://github.com/Upasana-Mukherjee-777/YOLO_Calibration](https://github.com/Upasana-Mukherjee-777/YOLO_Calibration)  
 > **Interactive Demonstration Dashboard:** [https://upasana-mukherjee-777.github.io/YOLO_Calibration/](https://upasana-mukherjee-777.github.io/YOLO_Calibration/)  
 
